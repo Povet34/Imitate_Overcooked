@@ -1,17 +1,16 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
     public event EventHandler OnInteractAction;
 
-    InputSystem_Actions playerInputActions;
+    PlayerInputActions playerInputActions;
 
     private void Awake()
     {
-        playerInputActions = new InputSystem_Actions();
+        playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
 
         playerInputActions.Player.Interact.performed += Interact_performed;
@@ -26,6 +25,6 @@ public class GameInput : MonoBehaviour
     {
         var inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
 
-        return inputVector.normalized;
+        return inputVector;
     }
 }
