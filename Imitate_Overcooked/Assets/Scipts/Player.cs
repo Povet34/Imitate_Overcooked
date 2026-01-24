@@ -9,9 +9,9 @@ public class Player : MonoBehaviour
     [SerializeField] GameInput gameInput;
     [SerializeField] LayerMask interactLayerMask;
 
-
     bool isWalking = false;
     Vector3 lastMoveDir;
+    ClearCounter selectedCounter;
 
     private void Start()
     {
@@ -60,6 +60,26 @@ public class Player : MonoBehaviour
         {
             lastMoveDir = moveDir;
         }
+
+        float interactDistance = 2f;
+        if (Physics.Raycast(transform.position, lastMoveDir, out RaycastHit hit, interactDistance, interactLayerMask))
+        {
+            if (hit.transform.TryGetComponent(out ClearCounter clearCounter))
+            {
+                if (selectedCounter != clearCounter)
+                    selectedCounter = clearCounter;
+            }
+            else
+            {
+                selectedCounter = null;
+            }
+        }
+        else
+        {
+            selectedCounter = null;
+        }
+
+        Debug.Log(selectedCounter);
     }
 
     public bool IsMoving()
