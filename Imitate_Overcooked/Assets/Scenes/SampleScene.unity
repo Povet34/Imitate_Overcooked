@@ -168,6 +168,9 @@ MonoBehaviour:
   moveSpeed: 5
   rotateSpeed: 10
   gameInput: {fileID: 1710069216}
+  interactLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!54 &288234396
 Rigidbody:
   m_ObjectHideFlags: 0
