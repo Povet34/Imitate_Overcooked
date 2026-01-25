@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class ClearCounter : MonoBehaviour
 {
+    [SerializeField] KitchenObjectSO kitchenObjectSO;
+    [SerializeField] Transform counterTopPoint;
+
     public void Interact()
     {
-        Debug.Log("Interacted with ClearCounter!");
+        Transform obj =  Instantiate(kitchenObjectSO.prefab, counterTopPoint);
+        obj.localPosition = Vector3.zero;
     }
 }
