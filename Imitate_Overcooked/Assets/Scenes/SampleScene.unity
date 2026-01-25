@@ -604,6 +604,17 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &782496853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -6678242505580968488, guid: 04ddf00a9307ac543a2cc90ca1ab5cda, type: 3}
+  m_PrefabInstance: {fileID: 1059208232}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ff3b322f9c47948877bb645f2ab527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearCounter
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,9 +1154,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6678242505580968488, guid: 04ddf00a9307ac543a2cc90ca1ab5cda, type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6678242505580968488, guid: 04ddf00a9307ac543a2cc90ca1ab5cda, type: 3}
       propertyPath: kitchenObjectSO
       value: 
       objectReference: {fileID: 11400000, guid: 80708359863439143ab09288ca73714a, type: 2}
+    - target: {fileID: -6678242505580968488, guid: 04ddf00a9307ac543a2cc90ca1ab5cda, type: 3}
+      propertyPath: secoundClearCounter
+      value: 
+      objectReference: {fileID: 782496853}
     - target: {fileID: 884271145000385951, guid: 04ddf00a9307ac543a2cc90ca1ab5cda, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.74
