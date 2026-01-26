@@ -4,6 +4,8 @@ public class CuttingCounter : BaseCounter
 {
     [SerializeField] CuttingRecipeSO[] cuttingRecipeSos;
 
+    int cuttingProgress;
+
     public override void Interact(Player player)
     {
         if (!HasKitchenObject())
@@ -13,6 +15,7 @@ public class CuttingCounter : BaseCounter
                 if(HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
                 {
                     player.GetKitchenObject().SetKitchenObjectParent(this);
+                    cuttingProgress = 0;
                 }
             }
             else
@@ -35,10 +38,16 @@ public class CuttingCounter : BaseCounter
     {
         if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
         {
-            var outputSO = GetOutputKitchenObject(GetKitchenObject().GetKitchenObjectSO());
+            cuttingProgress++;
+            var recipe = GetCuttingRecipeInput(GetKitchenObject().GetKitchenObjectSO());
+            
+            if(cuttingProgress >= recipe.cuttingProgressMax)
+            {
+                GetKitchenObject().DestroySelf();
+                KitchenObject.SpawnKitchenObject(recipe.output, this);
 
-            GetKitchenObject().DestroySelf();
-            KitchenObject.SpawnKitchenObject(outputSO, this);
+                cuttingProgress = 0;
+            }
         }
     }
 
@@ -56,11 +65,22 @@ public class CuttingCounter : BaseCounter
 
     KitchenObjectSO GetOutputKitchenObject(KitchenObjectSO input)
     {
+        var recipe = GetCuttingRecipeInput(input);
+        if (recipe != null)
+        {
+            return recipe.output;
+        }
+
+        return null;
+    }
+
+    CuttingRecipeSO GetCuttingRecipeInput(KitchenObjectSO input)
+    {
         foreach (CuttingRecipeSO cuttingRecipeSO in cuttingRecipeSos)
         {
             if (cuttingRecipeSO.input == input)
             {
-                return cuttingRecipeSO.output;
+                return cuttingRecipeSO;
             }
         }
         return null;
