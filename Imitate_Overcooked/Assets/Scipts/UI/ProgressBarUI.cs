@@ -16,7 +16,7 @@ public class ProgressBarUI : MonoBehaviour
     private void CuttingCounter_OnProgressUpdate(object sender, CuttingCounter.OnProgressUpdateEventArgs e)
     {
         bar.fillAmount = e.progressNormalized;
-        Show(e.progressNormalized != 0 || e.progressNormalized != 1f);
+        Show(e.progressNormalized != 0 && e.progressNormalized != 1f);
     }
 
     void Show(bool isShow)

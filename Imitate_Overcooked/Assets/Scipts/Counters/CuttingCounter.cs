@@ -48,9 +48,14 @@ public class CuttingCounter : BaseCounter
         if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
         {
             cuttingProgress++;
+            
+            OnCut?.Invoke(this, EventArgs.Empty);
             var recipe = GetCuttingRecipeInput(GetKitchenObject().GetKitchenObjectSO());
 
-            OnCut?.Invoke(this, EventArgs.Empty);
+            OnProgressChanged?.Invoke(this, new OnProgressUpdateEventArgs
+            {
+                progressNormalized = (float)cuttingProgress / recipe.cuttingProgressMax
+            });
 
             if (cuttingProgress >= recipe.cuttingProgressMax)
             {
@@ -59,12 +64,6 @@ public class CuttingCounter : BaseCounter
 
                 cuttingProgress = 0;
             }
-
-            OnProgressChanged?.Invoke(this, new OnProgressUpdateEventArgs
-            {
-                progressNormalized = (float)cuttingProgress / recipe.cuttingProgressMax
-            });
-
         }
     }
 
