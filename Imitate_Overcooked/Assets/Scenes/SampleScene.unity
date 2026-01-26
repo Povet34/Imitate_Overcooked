@@ -1213,24 +1213,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2663722746775807780, guid: 292819e050ced7244ae589397a14de2b, type: 3}
   m_PrefabInstance: {fileID: 1357349880}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1408117768 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 733241247635433739, guid: 614b7090cc3eeb44aa43a84083f3af9a, type: 3}
-  m_PrefabInstance: {fileID: 1535840225}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1408117771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1408117768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8db50b346edbc0b4595ba47ea137c011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CuttingConterVisual
-  cuttingCounter: {fileID: 1796366620}
 --- !u!1001 &1497802330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1348,10 +1330,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 733241247635433739, guid: 614b7090cc3eeb44aa43a84083f3af9a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1408117771}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 614b7090cc3eeb44aa43a84083f3af9a, type: 3}
 --- !u!4 &1535840226 stripped
 Transform:
@@ -1526,17 +1505,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2663722746775807780, guid: 292819e050ced7244ae589397a14de2b, type: 3}
   m_PrefabInstance: {fileID: 1776654837}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1796366620 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8902893137036052188, guid: 614b7090cc3eeb44aa43a84083f3af9a, type: 3}
-  m_PrefabInstance: {fileID: 1535840225}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1287ea89dbbfe5245b81a931d3140d4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CuttingCounter
 --- !u!1 &1850646820
 GameObject:
   m_ObjectHideFlags: 0
