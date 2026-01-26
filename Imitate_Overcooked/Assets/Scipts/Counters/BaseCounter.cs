@@ -15,7 +15,6 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
 
     }
 
-
     #region IKitchenObjectParent
 
     public Transform GetKitchenObjectFollowTransform()
