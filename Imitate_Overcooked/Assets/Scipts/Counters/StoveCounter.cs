@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
 
-public class StoveCounter : BaseCounter
+public class StoveCounter : BaseCounter, IHasProgress
 {
     public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
+    public event EventHandler<IHasProgress.OnProgressUpdateEventArgs> OnProgressChanged;
+
     public class OnStateChangedEventArgs : EventArgs
     {
         public State state;
@@ -38,6 +40,12 @@ public class StoveCounter : BaseCounter
                 if (HasKitchenObject())
                 {
                     fryingTimer += Time.deltaTime;
+
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs()
+                    {
+                        progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
+                    });
+
                     if (fryingTimer >= fryingRecipeSO.fryingTimerMax)
                     {
                         GetKitchenObject().DestroySelf();
@@ -51,6 +59,11 @@ public class StoveCounter : BaseCounter
                         {
                             state = state
                         });
+
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs()
+                        {
+                            progressNormalized = 0f
+                        });
                     }
                 }
                 break;
@@ -58,6 +71,12 @@ public class StoveCounter : BaseCounter
                 if(HasKitchenObject())
                 {
                     burningTimer += Time.deltaTime;
+
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs()
+                    {
+                        progressNormalized = burningTimer / burningRecipeSO.burningTimerMax
+                    });
+
                     if (burningTimer >= burningRecipeSO.burningTimerMax)
                     {
                         GetKitchenObject().DestroySelf();
@@ -70,6 +89,12 @@ public class StoveCounter : BaseCounter
                         {
                             state = state
                         });
+
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs()
+                        {
+                            progressNormalized = 0f
+                        });
+
                     }
                 }
                 break;
@@ -116,6 +141,11 @@ public class StoveCounter : BaseCounter
                 OnStateChanged?.Invoke(this, new OnStateChangedEventArgs()
                 {
                     state = state
+                });
+
+                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs()
+                {
+                    progressNormalized = 0f
                 });
             }
         }

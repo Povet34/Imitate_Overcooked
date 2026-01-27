@@ -181,11 +181,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2663722746775807780, guid: 292819e050ced7244ae589397a14de2b, type: 3}
   m_PrefabInstance: {fileID: 45581821}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &165639244 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7939655181999016017, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-  m_PrefabInstance: {fileID: 702266734}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &288234393
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,11 +823,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2663722746775807780, guid: e12959de012c44f49a9f39e5c6af818d, type: 3}
   m_PrefabInstance: {fileID: 496070920}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &554500432 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2765254110555856856, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-  m_PrefabInstance: {fileID: 702266734}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &587698928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1005,34 +995,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2765254110555856856, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 2336845928604309609, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
+      propertyPath: m_LocalRotation.w
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336845928604309609, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336845928604309609, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336845928604309609, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336845928604309609, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 3513469354470442249, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
       propertyPath: m_Name
       value: StoveCounter
       objectReference: {fileID: 0}
-    - target: {fileID: 5249031451879656471, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-      propertyPath: stoveCounter
-      value: 
-      objectReference: {fileID: 702266736}
-    - target: {fileID: 5249031451879656471, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-      propertyPath: stoveOnGameObject
-      value: 
-      objectReference: {fileID: 165639244}
-    - target: {fileID: 5249031451879656471, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-      propertyPath: particlesGameObject
-      value: 
-      objectReference: {fileID: 554500432}
-    - target: {fileID: 7939655181999016017, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 2909310193560826398, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-    - {fileID: 6922181683905521047, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
@@ -1041,17 +1029,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 254285611319717623, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
   m_PrefabInstance: {fileID: 702266734}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &702266736 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2544709764265855152, guid: c74ffe5f01dbb9d41a00f87a158ec774, type: 3}
-  m_PrefabInstance: {fileID: 702266734}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce73ca404595a748a7b0289af762b03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StoveCounter
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
