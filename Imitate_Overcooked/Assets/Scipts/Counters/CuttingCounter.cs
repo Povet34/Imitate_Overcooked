@@ -12,7 +12,6 @@ public class CuttingCounter : BaseCounter
         public float progressNormalized;
     }
 
-
     int cuttingProgress;
 
     public override void Interact(Player player)
