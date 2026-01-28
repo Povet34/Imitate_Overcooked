@@ -18,6 +18,14 @@ public class ClearCounter : BaseCounter
         {
             if (player.HasKitchenObject())
             {
+                //Counter에 있는 KitchenObject를 플레이어가 들고있는 접시에 담는다.
+                if(player.GetKitchenObject() is PlateKitchenObject plateObject)
+                {
+                    if(plateObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
             }
             else
             {
