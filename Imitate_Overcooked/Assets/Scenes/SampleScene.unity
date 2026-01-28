@@ -1578,16 +1578,59 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlatesCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 8610361585954242317, guid: 6e40018020c998d44b703a417d2fd641, type: 3}
+      propertyPath: plateKichenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 5581f2d1b5f9f07469674dc0e228cccc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2453595052509830562, guid: 6e40018020c998d44b703a417d2fd641, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1840765878}
   m_SourcePrefab: {fileID: 100100000, guid: 6e40018020c998d44b703a417d2fd641, type: 3}
 --- !u!4 &1840765876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1393967773332162814, guid: 6e40018020c998d44b703a417d2fd641, type: 3}
   m_PrefabInstance: {fileID: 1840765875}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1840765877 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2453595052509830562, guid: 6e40018020c998d44b703a417d2fd641, type: 3}
+  m_PrefabInstance: {fileID: 1840765875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1840765878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840765877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f57cf10f4ffd58a4aac946363e08e815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatesCounterVisual
+  platesCounter: {fileID: 1840765880}
+  counterToPoint: {fileID: 1840765879}
+  plateVisualPrefab: {fileID: 3746599894672152654, guid: 183bc5958a9a3974a8675184d2ead8b6, type: 3}
+--- !u!4 &1840765879 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6731867675178192690, guid: 6e40018020c998d44b703a417d2fd641, type: 3}
+  m_PrefabInstance: {fileID: 1840765875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1840765880 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8610361585954242317, guid: 6e40018020c998d44b703a417d2fd641, type: 3}
+  m_PrefabInstance: {fileID: 1840765875}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2edb22a349b794aafeee371292856e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlatesCounter
 --- !u!1 &1850646820
 GameObject:
   m_ObjectHideFlags: 0
