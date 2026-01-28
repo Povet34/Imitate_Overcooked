@@ -22,10 +22,8 @@ public class PlateKitchenObject : KitchenObject
         {
             return false;
         }
-        else
-        {
-            kitchenObjectSOList.Add(kitchenObjectSO);
-            return true;
-        }
+
+        kitchenObjectSOList.Add(kitchenObjectSO);
+        return true;
     }
 }
