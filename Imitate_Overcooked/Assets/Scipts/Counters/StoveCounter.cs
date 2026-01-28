@@ -132,6 +132,26 @@ public class StoveCounter : BaseCounter, IHasProgress
         {
             if (player.HasKitchenObject())
             {
+                //Counter에 있는 KitchenObject를 플레이어가 들고있는 접시에 담는다.
+                if (player.GetKitchenObject().TryGetPlate(out var plateObject))
+                {
+                    if (plateObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+
+                        state = State.Idle;
+
+                        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs()
+                        {
+                            state = state
+                        });
+
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs()
+                        {
+                            progressNormalized = 0f
+                        });
+                    }
+                }
             }
             else
             {

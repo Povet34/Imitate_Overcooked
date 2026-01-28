@@ -46,6 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlateKitchenObject
   kitchenObjectSO: {fileID: 11400000, guid: 5581f2d1b5f9f07469674dc0e228cccc, type: 2}
+  validKitchenObjectSos:
+  - {fileID: 11400000, guid: 29ee236ca69580d49ba14ffc90539016, type: 2}
+  - {fileID: 11400000, guid: c60e8f0968105b644bdad8deda1dffe7, type: 2}
+  - {fileID: 11400000, guid: c1d5da6f476fba14897241aff4239dd7, type: 2}
+  - {fileID: 11400000, guid: 6c79b218243085f419b492708f00ed83, type: 2}
+  - {fileID: 11400000, guid: 747cee7537a581f4d8d9863155b62725, type: 2}
+  - {fileID: 11400000, guid: 08b46318180e8a3448b10c0d000b41af, type: 2}
 --- !u!1001 &2709936634050033792
 PrefabInstance:
   m_ObjectHideFlags: 0
