@@ -37,12 +37,24 @@ public class CuttingCounter : BaseCounter, IHasProgress
                     if (plateObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                     {
                         GetKitchenObject().DestroySelf();
+                        cuttingProgress = 0;
+
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs
+                        {
+                            progressNormalized = 0
+                        });
                     }
                 }
             }
             else
             {
                 GetKitchenObject().SetKitchenObjectParent(player);
+                cuttingProgress = 0;
+
+                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs
+                {
+                    progressNormalized = 0
+                });
             }
         }
     }
