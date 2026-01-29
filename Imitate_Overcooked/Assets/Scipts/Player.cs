@@ -104,8 +104,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             SetSelectedCounter(null);
         }
-
-        Debug.Log(selectedCounter);
     }
 
     private void SetSelectedCounter(BaseCounter clearCounter)
