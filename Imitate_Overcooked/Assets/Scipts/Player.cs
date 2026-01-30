@@ -8,7 +8,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public event EventHandler OnPickedSomething;
-    public event EventHandler OnKitchenObjectDroped;
 
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
