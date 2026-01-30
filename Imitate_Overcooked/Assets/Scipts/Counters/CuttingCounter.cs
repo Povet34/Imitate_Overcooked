@@ -5,11 +5,11 @@ public class CuttingCounter : BaseCounter, IHasProgress
 {
     [SerializeField] CuttingRecipeSO[] cuttingRecipeSos;
 
-    public EventHandler OnCut;
+    public static event EventHandler OnCut;
+    public event EventHandler OnAnyCut;
+    public event EventHandler<IHasProgress.OnProgressUpdateEventArgs> OnProgressChanged;
 
     int cuttingProgress;
-
-    public event EventHandler<IHasProgress.OnProgressUpdateEventArgs> OnProgressChanged;
 
     public override void Interact(Player player)
     {
@@ -66,6 +66,8 @@ public class CuttingCounter : BaseCounter, IHasProgress
             cuttingProgress++;
             
             OnCut?.Invoke(this, EventArgs.Empty);
+            OnAnyCut?.Invoke(this, EventArgs.Empty);
+
             var recipe = GetCuttingRecipeInput(GetKitchenObject().GetKitchenObjectSO());
 
             OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressUpdateEventArgs

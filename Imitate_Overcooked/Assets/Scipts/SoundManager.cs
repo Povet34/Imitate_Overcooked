@@ -3,13 +3,30 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-
     [SerializeField] AudioClipRefsSO audioClipRefsSO;
 
     private void Start()
     {
         DeliveryManager.Instance.OnRecipeComplate += DeliveryManager_OnRecipeComplate;
         DeliveryManager.Instance.OnRecipeFailed += DeliveryManager_OnRecipeFailed;
+        CuttingCounter.OnCut += CuttingCounter_OnAnyCut;
+        Player.Instance.OnPickedSomething += Player_OnPickedSomething;
+    }
+
+    private void Player_OnPickedSomething(object sender, EventArgs e)
+    {
+        if(sender is Player player)
+        {
+            PlaySound(audioClipRefsSO.objectPickup, player.transform.position);
+        }
+    }
+
+    private void CuttingCounter_OnAnyCut(object sender, EventArgs e)
+    {
+        if(sender is CuttingCounter cuttingCounter)
+        {
+            PlaySound(audioClipRefsSO.chop, cuttingCounter.transform.position);
+        }
     }
 
     private void DeliveryManager_OnRecipeFailed(object sender, EventArgs e)
