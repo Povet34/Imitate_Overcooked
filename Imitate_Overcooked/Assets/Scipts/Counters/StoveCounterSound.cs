@@ -19,7 +19,7 @@ public class StoveCounterSound : MonoBehaviour
     private void StoveCounter_OnStateChanged(object sender, StoveCounter.OnStateChangedEventArgs e)
     {
         //구워지는 중이거나, 타는 중이거나
-        if(e.state != StoveCounter.State.Frying || e.state == StoveCounter.State.Fried)
+        if(e.state == StoveCounter.State.Frying || e.state == StoveCounter.State.Fried)
         {
             audioSource.Play();
         }
