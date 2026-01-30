@@ -8,6 +8,9 @@ public class DeliveryManager : MonoBehaviour
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeComplate;
 
+    public event EventHandler OnRecipeSuccess;
+    public event EventHandler OnRecipeFailed;
+
     public static DeliveryManager Instance { get; private set; }
 
     [SerializeField] RecipeListSO recipeListSo;
