@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class DeliveryManager : MonoBehaviour
 {
+    public event EventHandler OnRecipeSpawned;
+    public event EventHandler OnRecipeComplate;
+
     public static DeliveryManager Instance { get; private set; }
 
     [SerializeField] RecipeListSO recipeListSo;
@@ -34,6 +37,8 @@ public class DeliveryManager : MonoBehaviour
             {
                 int randomRecipeIndex = UnityEngine.Random.Range(0, recipeListSo.recipeSos.Count);
                 waitingRecipeList.Add(recipeListSo.recipeSos[randomRecipeIndex]);
+
+                OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
             }
         }
     }
@@ -63,9 +68,16 @@ public class DeliveryManager : MonoBehaviour
                 {
                     Debug.Log("Delivery Correct!");
                     waitingRecipeList.RemoveAt(i);
+
+                    OnRecipeComplate?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
         }
+    }
+
+    public List<RecipeSO> GetWaitingRecipeSOList()
+    {
+        return waitingRecipeList;
     }
 }
