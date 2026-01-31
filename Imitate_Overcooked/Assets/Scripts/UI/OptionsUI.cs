@@ -126,5 +126,4 @@ public class OptionsUI : MonoBehaviour {
             UpdateVisual();
         });
     }
-
 }
