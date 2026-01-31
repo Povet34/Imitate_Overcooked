@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class KitchenGameManager : MonoBehaviour
 {
+    public static KitchenGameManager Instance { get; private set; }
+
     public enum State
     {
         WaitingToStart,
@@ -12,9 +14,12 @@ public class KitchenGameManager : MonoBehaviour
 
     State state;
     float waitToStartTimer = 1f;
+    float countdownToStartTimer = 3f;
+    float gamePlayingTimer = 60f;
 
     private void Awake()
     {
+        Instance = this;
         state = State.WaitingToStart;
     }
 
@@ -23,14 +28,39 @@ public class KitchenGameManager : MonoBehaviour
         switch(state)
         {
             case State.WaitingToStart:
-                waitToStartTimer -= Time.deltaTime;
-                if (waitToStartTimer < 0)
                 {
-                    state = State.CountdownToStart;
+                    waitToStartTimer -= Time.deltaTime;
+                    if (waitToStartTimer < 0)
+                    {
+                        state = State.CountdownToStart;
+                    }
                 }
-
-                state = State.CountdownToStart;
+                break;
+            case State.CountdownToStart:
+                {
+                    countdownToStartTimer -= Time.deltaTime;
+                    if (countdownToStartTimer < 0)
+                    {
+                        state = State.GamePlaying;
+                    }
+                }
+                break;
+            case State.GamePlaying:
+                {
+                    gamePlayingTimer -= Time.deltaTime;
+                    if (gamePlayingTimer < 0)
+                    {
+                        state = State.GameOver;
+                    }
+                }
+                break;
+            case State.GameOver:
                 break;
         }
+    }
+
+    public bool IsGamePlaying()
+    {
+        return state == State.GamePlaying;
     }
 }
