@@ -58,8 +58,8 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
         if(!IsOwner) return;
 
-        //HandleMovement();
-        HandleMovementServerAuth();
+        HandleMovement();
+        //HandleMovementServerAuth();
         HandleInteractions();
     }
 
