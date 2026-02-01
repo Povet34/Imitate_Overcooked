@@ -7,14 +7,22 @@ using UnityEngine.Networking;
 
 public class Player : NetworkBehaviour, IKitchenObjectParent 
 {
-   // public static Player Instance { get; private set; }
+    public static event EventHandler OnAnyPlayerSpawned;
+    public static event EventHandler OnAnyPickedSomething;
+    public static Player LocalInstance { get; private set; }
 
     public event EventHandler OnPickedSomething;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
-    public class OnSelectedCounterChangedEventArgs : EventArgs {
+    public class OnSelectedCounterChangedEventArgs : EventArgs 
+    {
         public BaseCounter selectedCounter;
     }
 
+    public static void ResetStaticData()
+    {
+        OnAnyPlayerSpawned = null;
+        OnAnyPickedSomething = null;
+    }
 
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
@@ -26,11 +34,14 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
-
-    private void Awake() 
+    public override void OnNetworkSpawn()
     {
+        if(IsOwner)
+        {
+            LocalInstance = this;
+        }
 
-        //Instance = this;
+        OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     private void Start() {
