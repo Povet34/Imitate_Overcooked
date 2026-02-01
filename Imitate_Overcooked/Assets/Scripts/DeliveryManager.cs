@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-public class DeliveryManager : MonoBehaviour {
-
+public class DeliveryManager : NetworkBehaviour 
+{
 
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
@@ -19,32 +21,43 @@ public class DeliveryManager : MonoBehaviour {
 
 
     private List<RecipeSO> waitingRecipeSOList;
-    private float spawnRecipeTimer;
+    private float spawnRecipeTimer = 4f;
     private float spawnRecipeTimerMax = 4f;
     private int waitingRecipesMax = 4;
     private int successfulRecipesAmount;
 
 
-    private void Awake() {
+    private void Awake() 
+    {
         Instance = this;
-
-
         waitingRecipeSOList = new List<RecipeSO>();
     }
 
-    private void Update() {
+    private void Update() 
+    {
+        if(!IsServer) 
+        {
+            return;
+        }
+
         spawnRecipeTimer -= Time.deltaTime;
         if (spawnRecipeTimer <= 0f) {
             spawnRecipeTimer = spawnRecipeTimerMax;
 
-            if (KitchenGameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count < waitingRecipesMax) {
-                RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
-
-                waitingRecipeSOList.Add(waitingRecipeSO);
-
-                OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+            if (KitchenGameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count < waitingRecipesMax) 
+            {
+                int waititngRecipeSOIndex = UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count);
+                SpawnNewWaitingRecipeClientRpc(waititngRecipeSOIndex);
             }
         }
+    }
+
+    [ClientRpc]
+    private void SpawnNewWaitingRecipeClientRpc(int waititngRecipeSOIndex)
+    {
+        RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[waititngRecipeSOIndex];
+        waitingRecipeSOList.Add(waitingRecipeSO);
+        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject) {
@@ -74,20 +87,12 @@ public class DeliveryManager : MonoBehaviour {
                 if (plateContentsMatchesRecipe) {
                     // Player delivered the correct recipe!
 
-                    successfulRecipesAmount++;
-
-                    waitingRecipeSOList.RemoveAt(i);
-
-                    OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+                    DeliverCorrectRecipeServerRpc(i);
                     return;
                 }
             }
         }
-
-        // No matches found!
-        // Player did not deliver a correct recipe
-        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
+        DeliverIncorrectRecipeServerRpc();
     }
 
     public List<RecipeSO> GetWaitingRecipeSOList() {
@@ -98,4 +103,38 @@ public class DeliveryManager : MonoBehaviour {
         return successfulRecipesAmount;
     }
 
+
+    #region Network Logic
+
+
+    [ServerRpc(RequireOwnership = false)]
+    void DeliverCorrectRecipeServerRpc(int waititngRecipeSOIndex) //서버한테 알려주고, 서버는 모든 클라이언트에게 다시 알려줘야한다.
+    {
+        DeliverCorrectRecipeClientRpc(waititngRecipeSOIndex);
+    }
+
+    [ClientRpc]
+    void DeliverCorrectRecipeClientRpc(int waititngRecipeSOIndex)
+    {
+        successfulRecipesAmount++;
+        waitingRecipeSOList.RemoveAt(waititngRecipeSOIndex);
+        OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+        OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+    }
+
+    [ClientRpc]
+    void DeliverIncorrectRecipeClientRpc()
+    {
+        // No matches found!
+        // Player did not deliver a correct recipe
+        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void DeliverIncorrectRecipeServerRpc()
+    {
+        DeliverIncorrectRecipeClientRpc();
+    }
+
+    #endregion
 }
