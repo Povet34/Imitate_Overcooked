@@ -13,10 +13,17 @@ public class TestingNetcodeUI : MonoBehaviour
         startHostButton.onClick.AddListener(() =>
         {
             Unity.Netcode.NetworkManager.Singleton.StartHost();
+            Hide();
         });
         startClientButton.onClick.AddListener(() =>
         {
             Unity.Netcode.NetworkManager.Singleton.StartClient();
+            Hide();
         });
+    }
+    
+    void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }
