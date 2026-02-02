@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class KitchenObject : MonoBehaviour {
+public class KitchenObject : NetworkBehaviour {
 
 
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
@@ -51,8 +53,6 @@ public class KitchenObject : MonoBehaviour {
             return false;
         }
     }
-
-
 
     public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent) {
         Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
