@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Player : NetworkBehaviour, IKitchenObjectParent 
+public class Player : NetworkBehaviour, IKitchenObjectParent
 {
     public static event EventHandler OnAnyPlayerSpawned;
     public static event EventHandler OnAnyPickedSomething;
@@ -241,4 +241,8 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         return kitchenObject != null;
     }
 
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
+    }
 }
