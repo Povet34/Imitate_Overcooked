@@ -4,14 +4,10 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class ContainerCounter : BaseCounter {
-
-
+public class ContainerCounter : BaseCounter 
+{
     public event EventHandler OnPlayerGrabbedObject;
-
-
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
-
 
     public override void Interact(Player player)
     {
@@ -22,7 +18,6 @@ public class ContainerCounter : BaseCounter {
             InteractLogicServerRpc();
         }
     }
-
 
     [ServerRpc(RequireOwnership = false)]
     void InteractLogicServerRpc()
