@@ -21,20 +21,41 @@ public class KitchenObject : NetworkBehaviour {
         return kitchenObjectSO;
     }
 
-    public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent) {
-        if (this.kitchenObjectParent != null) {
-            this.kitchenObjectParent.ClearKitchenObject();
+    public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent) 
+    {
+        SetKitchenObjectParentServerRpc(kitchenObjectParent.GetNetworkObject());
+    }
+
+    [ClientRpc]
+    void SetKitchenObjectParentClientRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+    {
+        if (kitchenObjectParentNetworkObjectReference.TryGet(out NetworkObject kitchenObjectParentNetworkObject))
+        {
+            IKitchenObjectParent kitchenObjectParent = kitchenObjectParentNetworkObject.GetComponent<IKitchenObjectParent>();
+
+            if (this.kitchenObjectParent != null)
+            {
+                this.kitchenObjectParent.ClearKitchenObject();
+            }
+
+            this.kitchenObjectParent = kitchenObjectParent;
+
+            if (kitchenObjectParent.HasKitchenObject())
+            {
+                Debug.LogError("IKitchenObjectParent already has a KitchenObject!");
+            }
+
+            kitchenObjectParent.SetKitchenObject(this);
+
+            followTransform.SetTargetTransform(kitchenObjectParent.GetKitchenObjectFollowTransform());
         }
+    }
 
-        this.kitchenObjectParent = kitchenObjectParent;
 
-        if (kitchenObjectParent.HasKitchenObject()) {
-            Debug.LogError("IKitchenObjectParent already has a KitchenObject!");
-        }
-
-        kitchenObjectParent.SetKitchenObject(this);
-
-        followTransform.SetTargetTransform(kitchenObjectParent.GetKitchenObjectFollowTransform());
+    [ServerRpc(RequireOwnership = false)]
+    void SetKitchenObjectParentServerRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+    {
+        SetKitchenObjectParentClientRpc(kitchenObjectParentNetworkObjectReference);
     }
 
     public IKitchenObjectParent GetKitchenObjectParent() {
