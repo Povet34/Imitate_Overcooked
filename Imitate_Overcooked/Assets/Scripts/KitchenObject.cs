@@ -8,10 +8,14 @@ public class KitchenObject : NetworkBehaviour {
 
 
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
+    
+    IKitchenObjectParent kitchenObjectParent;
+    FollowTransform followTransform;
 
-
-    private IKitchenObjectParent kitchenObjectParent;
-
+    private void Awake()
+    {
+        followTransform = GetComponent<FollowTransform>();
+    }
 
     public KitchenObjectSO GetKitchenObjectSO() {
         return kitchenObjectSO;
@@ -30,8 +34,7 @@ public class KitchenObject : NetworkBehaviour {
 
         kitchenObjectParent.SetKitchenObject(this);
 
-        //transform.parent = kitchenObjectParent.GetKitchenObjectFollowTransform();
-        //transform.localPosition = Vector3.zero;
+        followTransform.SetTargetTransform(kitchenObjectParent.GetKitchenObjectFollowTransform());
     }
 
     public IKitchenObjectParent GetKitchenObjectParent() {
