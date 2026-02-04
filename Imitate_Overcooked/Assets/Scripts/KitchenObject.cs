@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class KitchenObject : NetworkBehaviour {
 
@@ -58,21 +55,26 @@ public class KitchenObject : NetworkBehaviour {
         SetKitchenObjectParentClientRpc(kitchenObjectParentNetworkObjectReference);
     }
 
-    public IKitchenObjectParent GetKitchenObjectParent() {
+    public IKitchenObjectParent GetKitchenObjectParent()
+    {
         return kitchenObjectParent;
     }
 
-    public void DestroySelf() {
+    public void DestroySelf()
+    {
         kitchenObjectParent.ClearKitchenObject();
-
         DestroyKitchenObject(this);
     }
 
-    public bool TryGetPlate(out PlateKitchenObject plateKitchenObject) {
-        if (this is PlateKitchenObject) {
+    public bool TryGetPlate(out PlateKitchenObject plateKitchenObject)
+    {
+        if (this is PlateKitchenObject)
+        {
             plateKitchenObject = this as PlateKitchenObject;
             return true;
-        } else {
+        }
+        else
+        {
             plateKitchenObject = null;
             return false;
         }
