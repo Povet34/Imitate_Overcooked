@@ -37,14 +37,7 @@ public class CuttingCounter : BaseCounter, IHasProgress {
                     // Player carrying something that can be Cut
                     KitchenObject kitchenObject = player.GetKitchenObject();
                     kitchenObject.SetKitchenObjectParent(this);
-                    cuttingProgress = 0;
-
-                    CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(kitchenObject.GetKitchenObjectSO());
-
-                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
-                    {
-                        progressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
-                    });
+                    InteractLogicPlaceOnCounterServerRpc();
                 }
             }
             else
@@ -75,7 +68,8 @@ public class CuttingCounter : BaseCounter, IHasProgress {
         }
     }
 
-    public override void InteractAlternate(Player player) {
+    public override void InteractAlternate(Player player) 
+    {
         if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO())) {
             // There is a KitchenObject here AND it can be cut
             CutObjectServerRpc();
@@ -109,10 +103,27 @@ public class CuttingCounter : BaseCounter, IHasProgress {
         {
             KitchenObjectSO outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
 
-            GetKitchenObject().DestroySelf();
+            KitchenGameMultiplayer.Instance.DestroyKitchenObject(GetKitchenObject());
 
             KitchenObject.SpawnKitchenObject(outputKitchenObjectSO, this);
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void InteractLogicPlaceOnCounterServerRpc()
+    {
+        InteractLogicPlaceOnCounterClientRpc();
+    }
+
+    [ClientRpc]
+    void InteractLogicPlaceOnCounterClientRpc()
+    {
+        cuttingProgress = 0;
+
+        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+        {
+            progressNormalized = 0f
+        });
     }
 
     private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO) {
