@@ -178,7 +178,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     [ClientRpc]
     void InteractLogicPlaceObjectOnCounterClientRpc(int kitchenObjectSOIndex)
     {
-        fryingRecipeSO = GetFryingRecipeSOWithInput(KitchenGameMultiplayer.Instance.GetKichenObjectSOFromIndex(kitchenObjectSOIndex));
+        fryingRecipeSO = GetFryingRecipeSOWithInput(KitchenGameMultiplayer.Instance.GetKitchenObjectSOFromIndex(kitchenObjectSOIndex));
 
         state = State.Frying;
         fryingTimer = 0f;

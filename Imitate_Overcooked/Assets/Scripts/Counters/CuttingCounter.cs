@@ -23,26 +23,6 @@ public class CuttingCounter : BaseCounter, IHasProgress {
 
     private int cuttingProgress;
 
-
-    public class AA
-    {
-        public GameObject aa;
-    }
-
-    public void DD()
-    {
-        AA a = new AA();
-        a.aa = new GameObject();
-
-        var go = a.aa;
-        a.aa = null;
-
-        if(go != null)
-        {
-            Debug.Log("GameObject is not null");
-        }
-    }
-
     public override void Interact(Player player)
     {
         if (!HasKitchenObject())
@@ -122,15 +102,6 @@ public class CuttingCounter : BaseCounter, IHasProgress {
         {
             progressNormalized = (float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax
         });
-
-        if (cuttingProgress >= cuttingRecipeSO.cuttingProgressMax)
-        {
-            KitchenObjectSO outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
-
-            KitchenGameMultiplayer.Instance.DestroyKitchenObject(GetKitchenObject());
-
-            KitchenObject.SpawnKitchenObject(outputKitchenObjectSO, this);
-        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -146,7 +117,6 @@ public class CuttingCounter : BaseCounter, IHasProgress {
 
             KitchenObject.SpawnKitchenObject(outputKitchenObjectSO, this);
         }
-
     }
 
     [ServerRpc(RequireOwnership = false)]

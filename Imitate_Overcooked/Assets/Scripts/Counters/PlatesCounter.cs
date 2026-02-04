@@ -31,6 +31,9 @@ public class PlatesCounter : BaseCounter
     [ServerRpc]
     void SpawnPlateServerRpc() //서버에서만 체크하고 브로드캐스팅 하면됨.
     {
+        if (!IsServer)
+            return;
+
         SpawnPlateClientRpc();
     }
 
