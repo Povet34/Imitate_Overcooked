@@ -19,9 +19,10 @@ public class PlayerAnimator : NetworkBehaviour {
         animator = GetComponent<Animator>();
     }
 
-    private void Update() 
-    {
-        if (!IsOwner) return;
+    private void Update() {
+        if (!IsOwner) {
+            return;
+        }
 
         animator.SetBool(IS_WALKING, player.IsWalking());
     }

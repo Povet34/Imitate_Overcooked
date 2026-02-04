@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public interface IKitchenObjectParent 
-{
-    Transform GetKitchenObjectFollowTransform();
-    void SetKitchenObject(KitchenObject kitchenObject);
-    KitchenObject GetKitchenObject();
-    void ClearKitchenObject();
-    bool HasKitchenObject();
-    NetworkObject GetNetworkObject();
+public interface IKitchenObjectParent {
+
+    public Transform GetKitchenObjectFollowTransform();
+
+    public void SetKitchenObject(KitchenObject kitchenObject);
+
+    public KitchenObject GetKitchenObject();
+
+    public void ClearKitchenObject();
+
+    public bool HasKitchenObject();
+
+    public NetworkObject GetNetworkObject();
+
 }

@@ -1,29 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestingNetcodeUI : MonoBehaviour
-{
-    [SerializeField] Button startHostButton;
-    [SerializeField] Button startClientButton;
+public class TestingNetcodeUI : MonoBehaviour {
 
-    private void Awake()
-    {
-        startHostButton.onClick.AddListener(() =>
-        {
-            Unity.Netcode.NetworkManager.Singleton.StartHost();
+
+    [SerializeField] private Button startHostButton;
+    [SerializeField] private Button startClientButton;
+
+
+    private void Awake() {
+        startHostButton.onClick.AddListener(() => {
+            Debug.Log("HOST");
+            KitchenGameMultiplayer.Instance.StartHost();
             Hide();
         });
-        startClientButton.onClick.AddListener(() =>
-        {
-            Unity.Netcode.NetworkManager.Singleton.StartClient();
+        startClientButton.onClick.AddListener(() => {
+            Debug.Log("CLIENT");
+            KitchenGameMultiplayer.Instance.StartClient();
             Hide();
         });
     }
-    
-    void Hide()
-    {
+
+    private void Hide() {
         gameObject.SetActive(false);
     }
+
 }

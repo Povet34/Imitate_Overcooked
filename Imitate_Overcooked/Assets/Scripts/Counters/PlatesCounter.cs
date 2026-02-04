@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlatesCounter : BaseCounter 
-{
+public class PlatesCounter : BaseCounter {
+
+
     public event EventHandler OnPlateSpawned;
     public event EventHandler OnPlateRemoved;
 
+
     [SerializeField] private KitchenObjectSO plateKitchenObjectSO;
+
 
     private float spawnPlateTimer;
     private float spawnPlateTimerMax = 4f;
@@ -18,6 +21,10 @@ public class PlatesCounter : BaseCounter
 
 
     private void Update() {
+        if (!IsServer) {
+            return;
+        }
+
         spawnPlateTimer += Time.deltaTime;
         if (spawnPlateTimer > spawnPlateTimerMax) {
             spawnPlateTimer = 0f;
@@ -29,43 +36,39 @@ public class PlatesCounter : BaseCounter
     }
 
     [ServerRpc]
-    void SpawnPlateServerRpc() //서버에서만 체크하고 브로드캐스팅 하면됨.
-    {
-        if (!IsServer)
-            return;
-
+    private void SpawnPlateServerRpc() {
         SpawnPlateClientRpc();
     }
 
     [ClientRpc]
-    void SpawnPlateClientRpc()
-    {
+    private void SpawnPlateClientRpc() {
         platesSpawnedAmount++;
+
         OnPlateSpawned?.Invoke(this, EventArgs.Empty);
     }
-
 
     public override void Interact(Player player) {
         if (!player.HasKitchenObject()) {
             // Player is empty handed
             if (platesSpawnedAmount > 0) {
                 // There's at least one plate here
-                InteractLogicServerRpc();
                 KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
+
+                InteractLogicServerRpc();
             }
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void InteractLogicServerRpc()
-    {
+    private void InteractLogicServerRpc() {
         InteractLogicClientRpc();
     }
 
     [ClientRpc]
-    void InteractLogicClientRpc()
-    {
+    private void InteractLogicClientRpc() {
         platesSpawnedAmount--;
+
         OnPlateRemoved?.Invoke(this, EventArgs.Empty);
     }
+
 }

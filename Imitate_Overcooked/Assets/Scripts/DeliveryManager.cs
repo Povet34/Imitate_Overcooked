@@ -1,10 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class DeliveryManager : NetworkBehaviour 
-{
+public class DeliveryManager : NetworkBehaviour {
+
 
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
@@ -25,16 +26,15 @@ public class DeliveryManager : NetworkBehaviour
     private int successfulRecipesAmount;
 
 
-    private void Awake() 
-    {
+    private void Awake() {
         Instance = this;
+
+
         waitingRecipeSOList = new List<RecipeSO>();
     }
 
-    private void Update() 
-    {
-        if(!IsServer) 
-        {
+    private void Update() {
+        if (!IsServer) {
             return;
         }
 
@@ -42,19 +42,20 @@ public class DeliveryManager : NetworkBehaviour
         if (spawnRecipeTimer <= 0f) {
             spawnRecipeTimer = spawnRecipeTimerMax;
 
-            if (KitchenGameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count < waitingRecipesMax) 
-            {
-                int waititngRecipeSOIndex = UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count);
-                SpawnNewWaitingRecipeClientRpc(waititngRecipeSOIndex);
+            if (KitchenGameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count < waitingRecipesMax) {
+                int waitingRecipeSOIndex = UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count);
+
+                SpawnNewWaitingRecipeClientRpc(waitingRecipeSOIndex);
             }
         }
     }
 
     [ClientRpc]
-    private void SpawnNewWaitingRecipeClientRpc(int waititngRecipeSOIndex)
-    {
-        RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[waititngRecipeSOIndex];
+    private void SpawnNewWaitingRecipeClientRpc(int waitingRecipeSOIndex) {
+        RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[waitingRecipeSOIndex];
+
         waitingRecipeSOList.Add(waitingRecipeSO);
+
         OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
     }
 
@@ -84,14 +85,42 @@ public class DeliveryManager : NetworkBehaviour
 
                 if (plateContentsMatchesRecipe) {
                     // Player delivered the correct recipe!
-
                     DeliverCorrectRecipeServerRpc(i);
                     return;
                 }
             }
         }
+
+        // No matches found!
+        // Player did not deliver a correct recipe
         DeliverIncorrectRecipeServerRpc();
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DeliverIncorrectRecipeServerRpc() {
+        DeliverIncorrectRecipeClientRpc();
+    }
+
+    [ClientRpc]
+    private void DeliverIncorrectRecipeClientRpc() {
+        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DeliverCorrectRecipeServerRpc(int waitingRecipeSOListIndex) {
+        DeliverCorrectRecipeClientRpc(waitingRecipeSOListIndex);
+    }
+
+    [ClientRpc]
+    private void DeliverCorrectRecipeClientRpc(int waitingRecipeSOListIndex) {
+        successfulRecipesAmount++;
+
+        waitingRecipeSOList.RemoveAt(waitingRecipeSOListIndex);
+
+        OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+        OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+    }
+
 
     public List<RecipeSO> GetWaitingRecipeSOList() {
         return waitingRecipeSOList;
@@ -101,38 +130,4 @@ public class DeliveryManager : NetworkBehaviour
         return successfulRecipesAmount;
     }
 
-
-    #region Network Logic
-
-
-    [ServerRpc(RequireOwnership = false)]
-    void DeliverCorrectRecipeServerRpc(int waititngRecipeSOIndex) //서버한테 알려주고, 서버는 모든 클라이언트에게 다시 알려줘야한다.
-    {
-        DeliverCorrectRecipeClientRpc(waititngRecipeSOIndex);
-    }
-
-    [ClientRpc]
-    void DeliverCorrectRecipeClientRpc(int waititngRecipeSOIndex)
-    {
-        successfulRecipesAmount++;
-        waitingRecipeSOList.RemoveAt(waititngRecipeSOIndex);
-        OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-        OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
-    }
-
-    [ClientRpc]
-    void DeliverIncorrectRecipeClientRpc()
-    {
-        // No matches found!
-        // Player did not deliver a correct recipe
-        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void DeliverIncorrectRecipeServerRpc()
-    {
-        DeliverIncorrectRecipeClientRpc();
-    }
-
-    #endregion
 }
