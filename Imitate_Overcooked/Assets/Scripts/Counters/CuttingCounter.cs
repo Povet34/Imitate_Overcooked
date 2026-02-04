@@ -24,6 +24,25 @@ public class CuttingCounter : BaseCounter, IHasProgress {
     private int cuttingProgress;
 
 
+    public class AA
+    {
+        public GameObject aa;
+    }
+
+    public void DD()
+    {
+        AA a = new AA();
+        a.aa = new GameObject();
+
+        var go = a.aa;
+        a.aa = null;
+
+        if(go != null)
+        {
+            Debug.Log("GameObject is not null");
+        }
+    }
+
     public override void Interact(Player player)
     {
         if (!HasKitchenObject())
@@ -35,9 +54,12 @@ public class CuttingCounter : BaseCounter, IHasProgress {
                 if (HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
                 {
                     // Player carrying something that can be Cut
+
+                    //player.GetKitchenObject().SetKitchenObjectParent(this);
                     KitchenObject kitchenObject = player.GetKitchenObject();
                     kitchenObject.SetKitchenObjectParent(this);
                     InteractLogicPlaceOnCounterServerRpc();
+
                 }
             }
             else
@@ -70,9 +92,11 @@ public class CuttingCounter : BaseCounter, IHasProgress {
 
     public override void InteractAlternate(Player player) 
     {
-        if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO())) {
+        if (HasKitchenObject() && HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO()))
+        {
             // There is a KitchenObject here AND it can be cut
             CutObjectServerRpc();
+            TestCuttingProgressDoneServerRpc();
         }
     }
 
@@ -110,6 +134,22 @@ public class CuttingCounter : BaseCounter, IHasProgress {
     }
 
     [ServerRpc(RequireOwnership = false)]
+    void TestCuttingProgressDoneServerRpc()
+    {
+        CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
+
+        if (cuttingProgress >= cuttingRecipeSO.cuttingProgressMax)
+        {
+            KitchenObjectSO outputKitchenObjectSO = GetOutputForInput(GetKitchenObject().GetKitchenObjectSO());
+
+            KitchenGameMultiplayer.Instance.DestroyKitchenObject(GetKitchenObject());
+
+            KitchenObject.SpawnKitchenObject(outputKitchenObjectSO, this);
+        }
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
     void InteractLogicPlaceOnCounterServerRpc()
     {
         InteractLogicPlaceOnCounterClientRpc();
@@ -126,24 +166,32 @@ public class CuttingCounter : BaseCounter, IHasProgress {
         });
     }
 
-    private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO) {
+    private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO)
+    {
         CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSO);
         return cuttingRecipeSO != null;
     }
 
 
-    private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO) {
+    private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO)
+    {
         CuttingRecipeSO cuttingRecipeSO = GetCuttingRecipeSOWithInput(inputKitchenObjectSO);
-        if (cuttingRecipeSO != null) {
+        if (cuttingRecipeSO != null)
+        {
             return cuttingRecipeSO.output;
-        } else {
+        }
+        else
+        {
             return null;
         }
     }
 
-    private CuttingRecipeSO GetCuttingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO) {
-        foreach (CuttingRecipeSO cuttingRecipeSO in cuttingRecipeSOArray) {
-            if (cuttingRecipeSO.input == inputKitchenObjectSO) {
+    private CuttingRecipeSO GetCuttingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
+    {
+        foreach (CuttingRecipeSO cuttingRecipeSO in cuttingRecipeSOArray)
+        {
+            if (cuttingRecipeSO.input == inputKitchenObjectSO)
+            {
                 return cuttingRecipeSO;
             }
         }
